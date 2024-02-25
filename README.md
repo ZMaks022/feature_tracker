@@ -31,12 +31,18 @@ ffmpeg -i ../4.gif frame_%03d.png
 ### Examples
 #### Horizontal movement
 frame 015 before features tracking
+
 ![](examples/frame_015.png)
+
 frame 025 after features tracking, we can see how every point moved to new position.
+
 ![](examples/frame_025.png)
 
 #### Vertical movement
 frame 55 before features tracking
+
 ![](examples/frame_055.png)
+
 frame 65 after features tracking, we can see how every point moved to new position.
+
 ![](examples/frame_065.png)

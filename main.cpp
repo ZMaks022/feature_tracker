@@ -7,11 +7,11 @@
 int main() {
     const int POINT_RADIUS = 2;
     const int MAX_POINTS = 50;
-    const int BORDER_SIZE = 20; // size of the border near which we do not select points (temporary stub)
+    const int BORDER_SIZE = 10; // size of the border near which we do not select points
     const int THICKNESS = 1; // connecting point line thickness
 
-    std::string filename1 = "frame_050";
-    std::string filename2 = "frame_060";
+    std::string filename1 = "frame_020";
+    std::string filename2 = "frame_030";
 
     std::string filename_read_1 = "../inputs/" + filename1 + ".png";
     std::string filename_read_2= "../inputs/" + filename2 + ".png";
@@ -28,7 +28,7 @@ int main() {
 
     std::vector<cv::Point2f> us;
     cv::goodFeaturesToTrack(grayI, us, MAX_POINTS, 0.07, 10);
-    // REDO now points that are near the border are removed here
+    // now points that are near the border are removed here
     {
         std::vector<cv::Point2f> filtered_points;
         for (auto & u : us) {

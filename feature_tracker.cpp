@@ -43,11 +43,18 @@ bool is_within_image(const cv::Mat &img, const cv::Point2f &pt) {
     return pt.x >= 0 && pt.x < cols && pt.y >= 0 && pt.y < rows;
 }
 
+bool is_feature_inside(const cv::Mat &img, const cv::Point2f &feature) {
+    return ((feature.x >= 0 && static_cast<int>(feature.x) < img.cols) &&
+            (feature.y >= 0 && static_cast<int>(feature.y) < img.rows) );
+}
 
 cv::Point2f optical_flow(const cv::Mat &prev_img, const cv::Mat &next_img, cv::Point2f u, cv::Point2f guss, int &error) {
-    const int omega_x = 4, omega_y = 4;
-    const int K = 100;
+    const int omega_x = 5, omega_y = 5;
+    const int K = 200;
     const double THRESHOLD = 0.2;
+
+    if (!is_feature_inside(next_img, u))
+        return {0.0f, 0.0f};
 
     // Derivative of IL with respect to x
     cv::Mat I_dx = cv::Mat::zeros(prev_img.size(), CV_32F);
@@ -160,7 +167,7 @@ std::vector<cv::Point2f> pyramidal_tracking(const cv::Mat &grayI, const cv::Mat 
         const auto u = us[i];
         cv::Point2f displacement = cv::Point2f(0, 0);
 
-        for (int level = LEVELS - 1; level >= 0; --level) {
+        for (int level = pyramidI.size(); level >= 0; --level) {
             cv::Point2f scaledU = u / pow(2, level);
             cv::Point2f current_displacement = displacement / pow(2, level);
             int error = 0;

@@ -1,5 +1,6 @@
 # Pyramidal Implementation of the Lucas Kanade Feature Tracker
 ___
+![](examples/output.gif)
 
 ### Installation
 
@@ -26,6 +27,12 @@ Use ffmpeg to extract frames from a GIF file. Before running this command, make 
 ```bash
 cd inputs
 ffmpeg -i ../4.gif frame_%03d.png
+```
+
+### Generate GIF
+```bash
+ffmpeg -framerate 24 -start_number 5 -i outputs/frame_%03d.png -vf "fps=24,scale=320:-1:flags=lanczos,palettegen" palette.png
+ffmpeg -framerate 24 -start_number 5 -i outputs/frame_%03d.png -i palette.png -filter_complex "fps=24,scale=320:-1:flags=lanczos[x];[x][1:v]paletteuse" output.gif
 ```
 
 ### Examples
